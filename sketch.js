@@ -17,10 +17,10 @@ function setup() {
   ellipseMode(CENTER);
   angleMode(DEGREES);
 
-  button = createButton('Start');
-  button.position(videoSelect.x + videoSelect.width, 65);
-  button.mousePressed(start);
-  button.mousePressed(initExample);
+  // button = createButton('Start');
+  // button.position(videoSelect.x + videoSelect.width, 65);
+  // button.mousePressed(start);
+  // button.mousePressed(initExample);
 
 }
 
