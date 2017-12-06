@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Simple Face</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script async src="js/libs/brf_asmjs/BRFv4_JS_trial.js"></script>
+	<script src="js/libs/p5js/p5.min.js"></script>
+	<script src="js/libs/p5js/p5.serialport.js"></script>
+	<script src="js/libs/p5js/p5.sound.min.js"></script>
+	<script src="js/libs/p5js/p5.dom.min.js"></script>
+</head>
+
+<body>
+
+	<div class="select" style="display: none;">
+		<label for="audioSource">Audio input source: </label><select id="audioSource"></select>
+	</div>
+
+	<div class="select" style="display: none;" >
+		<label for="audioOutput">Audio output destination: </label><select id="audioOutput"></select>
+	</div>
+
+	<div class="select">
+		<label for="videoSource">Video source: </label><select id="videoSource"></select>
+	</div>
+
+	<!-- <video id="video" autoplay></video> -->
+
+
+
+
+<video	id="_webcam" style="display: none;" playsinline></video>
+<canvas id="_imageData" style="display: none;"  ></canvas>
+
+<script src="face.js"></script>
+<script src="sketch.js"></script>
+<script src="selectCamera.js"></script>
+
+</body>
+
+</html>
