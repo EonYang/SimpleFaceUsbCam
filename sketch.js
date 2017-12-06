@@ -49,6 +49,9 @@ function DrawFace(face) {
       (face.vertices[0 * 2] + (face.vertices[16 * 2] - face.vertices[0 * 2]) / 2) * 2,
       (face.vertices[1 * 2 + 1] + (face.vertices[15 * 2 + 1] - face.vertices[1 * 2 + 1]) / 2) * 2,
     ];
+    // print (face);
+
+    // print(face.points[0].x, face.points[0].y, face.points[1].x, face.points[1].y);
 
     for (var i = 0; i < face.vertices.length; i += 2) {
       fDS[i / 2] = [face.vertices[i] * 2 - center[0], face.vertices[i + 1] * 2 - center[1]];
