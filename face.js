@@ -6,7 +6,7 @@ var roi = null;
 var resolutionAnalyze = null;
 var brfv4		= null;
 
-var constraints = {video: {width: 800, height: 600, frameRate: 30}}
+var constraints = {video: {width: 960, height: 720, frameRate: 24}}
 
 function initExample() {
 
