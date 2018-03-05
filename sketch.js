@@ -17,12 +17,9 @@ function setup() {
 function draw() {
   numberOfFaces = 0;
   background(255);
-  // if (faces.length >= 1) {
 
   for (var i = 0; i < faces.length; i++) {
     DrawFace(faces[i]);
-
-    // }
   }
 
   if (numberOfFaces != 0) {
@@ -56,7 +53,6 @@ function DrawFace(face) {
       0, 0, fDS[16].x - fDS[0].x,
       (fDS[8].y - fDS[29].y) * 2
     ];
-    console.log(center);
 
     let leftEye = [
       fDS[41].x + (fDS[40].x - fDS[41].x) / 2,
@@ -116,4 +112,8 @@ function DrawFace(face) {
     pop();
 
   }
+}
+
+var Monitor = (opacity) => {
+  document.getElementById("_imageData").style.opacity = opacity;
 }
