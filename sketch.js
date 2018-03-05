@@ -68,7 +68,7 @@ function DrawFace(face) {
       fDS[47].y - fDS[43].y
     ]
 
-    let upperLip = [
+    let lowerLip = [
       fDS[48].x,
       fDS[48].y * 0.95,
       fDS[67].x,
@@ -79,7 +79,7 @@ function DrawFace(face) {
       fDS[54].y * 0.95
     ]
 
-    let lowerLip = [
+    let upperLip = [
       fDS[48].x,
       fDS[48].y * 0.95,
       fDS[61].x,

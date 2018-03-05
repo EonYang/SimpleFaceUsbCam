@@ -59,8 +59,8 @@ function initExample() {
     imageData.height = webcam.videoHeight;
     console.log(webcam.videoWidth);
     resolution = new brfv4.Rectangle(0, 0, 960, 720);
-    // roi = new brfv4.Rectangle(240, 120, 480, 480);
-    roi = new brfv4.Rectangle(180, 60, 600, 600);
+    roi = new brfv4.Rectangle(240, 160, 480, 480);
+    // roi = new brfv4.Rectangle(180, 60, 600, 600);
     // resolutionAnalyze = new brfv4.Rectangle(0, 0, 640, 960)
     brfManager = new brfv4.BRFManager();
     brfManager.init(resolution, roi, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
