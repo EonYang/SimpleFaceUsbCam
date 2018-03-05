@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8">
 	<title>Simple Face</title>
@@ -12,6 +13,10 @@
 </head>
 
 <body>
+
+	<div id="sketch-holder">
+		<!-- Our sketch will go here! -->
+	</div>
 
 	<!-- <div class="select" style="display: none;">
 		<label for="audioSource">Audio input source: </label><select id="audioSource"></select>
@@ -30,12 +35,12 @@
 
 
 
-<video	id="_webcam" style="display: none;" playsinline></video>
-<canvas id="_imageData" style="display: none;" ></canvas>
+	<video id="_webcam" style="display: none;" playsinline></video>
+	<canvas id="_imageData"></canvas>
 
-<script src="selectCamera.js"></script>
-<script src="face.js"></script>
-<script src="sketch.js"></script>
+	<script src="selectCamera.js"></script>
+	<script src="face.js"></script>
+	<script src="sketch.js"></script>
 
 
 </body>

@@ -1,23 +1,29 @@
-var webcam		= document.getElementById("_webcam");		// our webcam video
-var imageData	= document.getElementById("_imageData");	// image data for BRFv4
-var brfManager	= null;
-var resolution	= null;
+var webcam = document.getElementById("_webcam"); // our webcam video
+var imageData = document.getElementById("_imageData"); // image data for BRFv4
+var brfManager = null;
+var resolution = null;
 var roi = null;
 var resolutionAnalyze = null;
-var brfv4		= null;
+var brfv4 = null;
 
-var constraints = {video: {width: 960, height: 720, frameRate: 24}}
+var constraints = {
+  video: {
+    width: 960,
+    height: 720,
+    frameRate: 24
+  }
+}
 
 function initExample() {
 
   startCamera();
   function startCamera() {
     // Start video playback once the camera was fetched.
-    function onStreamFetched (mediaStream) {
+    function onStreamFetched(mediaStream) {
       webcam.srcObject = mediaStream;
       webcam.play();
       // Check whether we know the video dimensions yet, if so, start BRFv4.
-      function onStreamDimensionsAvailable () {
+      function onStreamDimensionsAvailable() {
         if (webcam.videoWidth === 0) {
           setTimeout(onStreamDimensionsAvailable, 100);
         } else {
@@ -27,16 +33,21 @@ function initExample() {
       onStreamDimensionsAvailable();
     }
 
-
     // {video: {deviceId: videoSource, width: 640, height: 480, frameRate: 30}}
-    window.navigator.mediaDevices.getUserMedia(constraints).then(onStreamFetched).catch(function () { alert("No camera available."); });
+    window.navigator.mediaDevices.getUserMedia(constraints).then(onStreamFetched).catch(function() {
+      alert("No camera available.");
+    });
   }
   function waitForSDK() {
-    if(brfv4 === null) {
-      brfv4 = {locateFile: function() { return "js/libs/brf_asmjs/BRFv4_JS_trial.js.mem" }};
+    if (brfv4 === null) {
+      brfv4 = {
+        locateFile: function() {
+          return "js/libs/brf_asmjs/BRFv4_JS_trial.js.mem"
+        }
+      };
       initializeBRF(brfv4);
     }
-    if(brfv4.sdkReady) {
+    if (brfv4.sdkReady) {
       initSDK();
     } else {
       setTimeout(waitForSDK, 100);
@@ -44,36 +55,36 @@ function initExample() {
   }
   function initSDK() {
     // Resize the canvas to match the webcam video size.
-    imageData.width		= webcam.videoWidth;
-    imageData.height	= webcam.videoHeight;
+    imageData.width = webcam.videoWidth;
+    imageData.height = webcam.videoHeight;
     console.log(webcam.videoWidth);
-    resolution	= new brfv4.Rectangle(0, 0, 960, 720);
-    roi = new brfv4.Rectangle(240, 120, 480, 480);
+    resolution = new brfv4.Rectangle(0, 0, 960, 720);
+    // roi = new brfv4.Rectangle(240, 120, 480, 480);
+    roi = new brfv4.Rectangle(180, 60, 600, 600);
     // resolutionAnalyze = new brfv4.Rectangle(0, 0, 640, 960)
-    brfManager	= new brfv4.BRFManager();
+    brfManager = new brfv4.BRFManager();
     brfManager.init(resolution, roi, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
-    brfManager.setNumFacesToTrack(4);
+    brfManager.setNumFacesToTrack(2);
     trackFaces();
   }
   function trackFaces() {
     var imageDataCtx = imageData.getContext("2d");
     imageDataCtx.setTransform(-1.0, 0, 0, 1, resolution.width, 0); // mirrored for draw of video
     imageDataCtx.drawImage(webcam, 0, 0, resolution.width, resolution.height);
-    imageDataCtx.setTransform( 1.0, 0, 0, 1, 0, 0); // unmirrored for draw of results
+    imageDataCtx.setTransform(1.0, 0, 0, 1, 0, 0); // unmirrored for draw of results
     brfManager.update(imageDataCtx.getImageData(0, 0, resolution.width, resolution.height).data);
     faces = brfManager.getFaces();
 
-    for(var i = 0; i < faces.length; i++) {
+    for (var i = 0; i < faces.length; i++) {
       var face = faces[i];
-      // if(		face.state === brfv4.BRFState.FACE_TRACKING_START ||
-      //     face.state === brfv4.BRFState.FACE_TRACKING) {
-      //   imageDataCtx.strokeStyle="#00a0ff";
-      //   for(var k = 0; k < face.vertices.length; k += 2) {
-      //     imageDataCtx.beginPath();
-      //     imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
-      //     imageDataCtx.stroke();
-      //   }
-      // }
+      if (face.state === brfv4.BRFState.FACE_TRACKING_START || face.state === brfv4.BRFState.FACE_TRACKING) {
+        imageDataCtx.strokeStyle = "#00a0ff";
+        for (var k = 0; k < face.vertices.length; k += 2) {
+          imageDataCtx.beginPath();
+          imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 4, 0, 2 * Math.PI);
+          imageDataCtx.stroke();
+        }
+      }
     }
     requestAnimationFrame(trackFaces);
   }

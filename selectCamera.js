@@ -94,7 +94,7 @@ function start() {
   var videoSource = videoSelect.value;
   // audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
   constraints = {
-    video: {deviceId: videoSource ? {exact: videoSource} : undefined, width: 960, height: 720, frameRate: 24}
+    video: {deviceId: videoSource ? {exact: videoSource} : undefined, width: 1920, height: 1080, frameRate: 24}
   };
   // navigator.mediaDevices.getUserMedia(constraints).
   //     then(gotStream).then(gotDevices).catch(handleError);
