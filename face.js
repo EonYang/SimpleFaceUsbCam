@@ -64,7 +64,7 @@ function initExample() {
     // resolutionAnalyze = new brfv4.Rectangle(0, 0, 640, 960)
     brfManager = new brfv4.BRFManager();
     brfManager.init(resolution, roi, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
-    brfManager.setNumFacesToTrack(2);
+    brfManager.setNumFacesToTrack(3);
     trackFaces();
   }
   function trackFaces() {
