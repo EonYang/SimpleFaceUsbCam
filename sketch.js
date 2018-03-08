@@ -1,6 +1,13 @@
 var faces = [];
 
 var numberOfFaces = 0;
+var area = {
+  x:240,
+  y:160,
+  w:480,
+  h:480,
+  stroke:0,
+};
 
 function setup() {
   var canvas = createCanvas(960, 720);
@@ -30,6 +37,18 @@ function draw() {
 }
 
 function DrawFace(face) {
+  push();
+  stroke(0,0,0,area.stroke);
+  //up
+  line(area.x,area.y,area.x+area.w, area.y);
+  //down
+  line(area.x,area.y+area.h,area.x+area.w, area.y+area.h);
+  //left
+  line(area.x,area.y,area.x, area.y+area.h);
+  //right
+  line(area.x+area.w,area.y,area.x+area.w, area.y+area.h);
+
+  pop();
 
   if (face.state === brfv4.BRFState.FACE_TRACKING_START || face.state === brfv4.BRFState.FACE_TRACKING) {
     // fDS : face dots shifted
@@ -51,7 +70,7 @@ function DrawFace(face) {
 
     let head = [
       0, 0, fDS[16].x - fDS[0].x,
-      (fDS[8].y - fDS[29].y) * 2
+      (fDS[8].y - fDS[29].y) * 2.2
     ];
 
     let leftEye = [
@@ -70,24 +89,24 @@ function DrawFace(face) {
 
     let lowerLip = [
       fDS[48].x,
-      fDS[48].y * 0.95,
+      fDS[48].y,
       fDS[67].x,
       fDS[67].y,
       fDS[65].x,
       fDS[65].y,
       fDS[54].x,
-      fDS[54].y * 0.95
+      fDS[54].y
     ]
 
     let upperLip = [
       fDS[48].x,
-      fDS[48].y * 0.95,
+      fDS[48].y,
       fDS[61].x,
       fDS[61].y,
       fDS[63].x,
       fDS[63].y,
       fDS[54].x,
-      fDS[54].y * 0.95
+      fDS[54].y
     ]
 
     let a = atan2(fDS[16][0] - fDS[0][0], fDS[16][1] - fDS[0][1]);
@@ -97,7 +116,7 @@ function DrawFace(face) {
     rotate(-a + 90);
     fill(255);
     stroke(0);
-    strokeWeight(4);
+    strokeWeight(2);
     ellipse(head[0], head[1], head[2] * 1.2, head[3]);
     bezier(lowerLip[0], lowerLip[1], lowerLip[2], lowerLip[3], lowerLip[4], lowerLip[5], lowerLip[6], lowerLip[7]);
     bezier(upperLip[0], upperLip[1], upperLip[2], upperLip[3], upperLip[4], upperLip[5], upperLip[6], upperLip[7]);
@@ -116,4 +135,5 @@ function DrawFace(face) {
 
 var Monitor = (opacity) => {
   document.getElementById("_imageData").style.opacity = opacity;
+  area.stroke = opacity * 200;
 }
