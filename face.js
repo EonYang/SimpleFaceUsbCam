@@ -13,7 +13,23 @@ var constraints = {
     frameRate: 24
   }
 };
+var constraintsFacetimeCam = {
+  video: {
+    width: 1280,
+    height: 720,
+    frameRate: 24
+  }
 
+};
+
+var constraints640 = {
+  video: {
+    width: 640,
+    height: 480,
+    frameRate: 24
+  }
+
+};
 function initExample() {
 
   startCamera();
@@ -58,12 +74,13 @@ function initExample() {
     imageData.width = webcam.videoWidth;
     imageData.height = webcam.videoHeight;
     console.log(webcam.videoWidth);
-    resolution = new brfv4.Rectangle(0, 0, 960, 720);
+    resolution = new brfv4.Rectangle(0, 0, constraints640.video.width, constraints640.video.height);
     roiUsbCam = new brfv4.Rectangle(240, 160, 480, 480);
     roiFacetimeCam = new brfv4.Rectangle(0, 0, 960, 720);
+    roi640 = new brfv4.Rectangle(0, 0, 640, 480);
     // resolutionAnalyze = new brfv4.Rectangle(0, 0, 640, 960)
     brfManager = new brfv4.BRFManager();
-    brfManager.init(resolution, roiFacetimeCam, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
+    brfManager.init(resolution, roi640, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
     brfManager.setNumFacesToTrack(3);
     trackFaces();
   }

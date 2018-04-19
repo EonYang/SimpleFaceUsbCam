@@ -1,20 +1,23 @@
+let video;
 var faces = [];
 var faceArea = [];
 var numberOfFaces = 0;
 var area = {
-  x:240,
-  y:160,
-  w:480,
-  h:480,
-  stroke:0,
+  x: 240,
+  y: 160,
+  w: 480,
+  h: 480,
+  stroke: 0
 };
 
 function setup() {
-  var canvas = createCanvas(960, 720);
-  canvas.parent('sketch-holder');
+  createCanvas(640, 480);
+  // canvas.parent('sketch-holder');
   ellipseMode(CENTER);
   angleMode(DEGREES);
-
+  video = createCapture(VIDEO);
+  video.size(width, height);
+  video.hide();
   // button = createButton('Start');
   // button.position(videoSelect.x + videoSelect.width, 65);
   // button.mousePressed(start);
@@ -24,9 +27,14 @@ function setup() {
 function draw() {
   numberOfFaces = 0;
   background(255);
-
+  push();
+  translate(width, 0);
+  scale(-1, 1);
+  image(video, 0, 0, width, height);
+  pop();
   for (var i = 0; i < faces.length; i++) {
-    DrawFace(faces[i]);
+    // DrawFace(faces[i]);
+    DrawCensorShades(faces[i]);
   }
 
   if (numberOfFaces != 0) {
@@ -38,15 +46,15 @@ function draw() {
 
 function DrawFace(face) {
   push();
-  stroke(0,0,0,area.stroke);
+  stroke(0, 0, 0, area.stroke);
   //up
-  line(area.x,area.y,area.x+area.w, area.y);
+  line(area.x, area.y, area.x + area.w, area.y);
   //down
-  line(area.x,area.y+area.h,area.x+area.w, area.y+area.h);
+  line(area.x, area.y + area.h, area.x + area.w, area.y + area.h);
   //left
-  line(area.x,area.y,area.x, area.y+area.h);
+  line(area.x, area.y, area.x, area.y + area.h);
   //right
-  line(area.x+area.w,area.y,area.x+area.w, area.y+area.h);
+  line(area.x + area.w, area.y, area.x + area.w, area.y + area.h);
 
   pop();
 
@@ -135,26 +143,72 @@ function DrawFace(face) {
 
 var findFacePositions = (face) => {
 
-		let r1 = {
-		}
-		r1.x = face.points[0].x;
-		r1.y = face.points[18].y < face.points[25].y 
-			? face.points[18].y : face.points[25].y;
-		r1.w = face.points[16].x - face.points[0].x;
-		r1.h = face.points[0].y > face.points[16].y 
-			? face.points[0].y : face.points[16].y;
-		faceArea.push(r1);
-}
+  let r1 = {};
+  r1.x = face.points[0].x;
+  r1.y = face.points[18].y < face.points[25].y
+    ? face.points[18].y
+    : face.points[25].y;
+  r1.w = face.points[15].x - face.points[1].x;
+  r1.h = face.points[1].y  > face.points[15].y
+    ? face.points[1].y - r1.y
+    : face.points[15].y - r1.y;
+  faceArea.r1 = r1;
+
+  let r2 = {};
+  r2.x = face.points[1].x;
+  r2.y = face.points[1].y < face.points[15].y
+    ? face.points[1].y
+    : face.points[15].y;
+  r2.w = face.points[14].x - face.points[2].x;
+  r2.h = face.points[2].y  > face.points[14].y
+    ? face.points[2].y - r2.y
+    : face.points[14].y - r2.y;
+  faceArea.r2 = r2;
+
+  let r3 = {};
+  r3.x = face.points[2].x;
+  r3.y = face.points[2].y < face.points[14].y
+    ? face.points[2].y
+    : face.points[14].y;
+  r3.w = face.points[14].x - face.points[4].x;
+  r3.h = face.points[4].y  > face.points[12].y
+    ? face.points[4].y - r3.y
+    : face.points[12].y - r3.y;
+  faceArea.r3 = r3;
+
+  let r4 = {};
+  r4.x = face.points[4].x;
+  r4.y = face.points[4].y < face.points[12].y
+    ? face.points[4].y
+    : face.points[12].y;
+  r4.w = face.points[12].x - face.points[4].x;
+  r4.h = face.points[8].y - r4.y;
+  faceArea.r4 = r4;
+};
+
+var DrawCensorShades = (face) => {
+  if (face.state === brfv4.BRFState.FACE_TRACKING_START || face.state === brfv4.BRFState.FACE_TRACKING) {
+
+    findFacePositions(face);
+    fill(0);
+    rect(faceArea.r1.x, faceArea.r1.y, faceArea.r1.w, faceArea.r1.h);
+  }
+};
 
 
 var DrawMosaic = (face) => {
-	
-	findFacePositions(face);
-	
+  if (face.state === brfv4.BRFState.FACE_TRACKING_START || face.state === brfv4.BRFState.FACE_TRACKING) {
 
+    findFacePositions(face);
+    fill(0);
 
+    rect(faceArea.r1.x, faceArea.r1.y, faceArea.r1.w, faceArea.r1.h);
+    rect(faceArea.r2.x, faceArea.r2.y, faceArea.r2.w, faceArea.r2.h);
+    rect(faceArea.r3.x, faceArea.r3.y, faceArea.r3.w, faceArea.r3.h);
+    rect(faceArea.r4.x, faceArea.r4.y, faceArea.r4.w, faceArea.r4.h);
+  }
 
-}
+};
 var Monitor = (opacity) => {
   document.getElementById("_imageData").style.opacity = opacity;
   area.stroke = opacity * 200;
