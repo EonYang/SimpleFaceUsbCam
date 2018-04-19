@@ -1,5 +1,5 @@
 var faces = [];
-
+var faceArea = [];
 var numberOfFaces = 0;
 var area = {
   x:240,
@@ -59,13 +59,13 @@ function DrawFace(face) {
     let center = {
       x: (face.points[0].x + (face.points[16].x - face.points[0].x) / 2),
       y: (face.points[1].y + (face.points[15].y - face.points[1].y) / 2)
-    }
+    };
 
     for (var i = 0; i < face.points.length; i += 1) {
       fDS[i] = {
         x: face.points[i].x - center.x,
         y: face.points[i].y - center.y
-      }
+      };
     }
 
     let head = [
@@ -78,14 +78,14 @@ function DrawFace(face) {
       fDS[41].y,
       fDS[40].x - fDS[41].x,
       fDS[40].y - fDS[38].y
-    ]
+    ];
 
     let rightEye = [
       fDS[47].x + (fDS[46].x - fDS[47].x) / 2,
       fDS[46].y,
       fDS[46].x - fDS[47].x,
       fDS[47].y - fDS[43].y
-    ]
+    ];
 
     let lowerLip = [
       fDS[48].x,
@@ -96,7 +96,7 @@ function DrawFace(face) {
       fDS[65].y,
       fDS[54].x,
       fDS[54].y
-    ]
+    ];
 
     let upperLip = [
       fDS[48].x,
@@ -107,7 +107,7 @@ function DrawFace(face) {
       fDS[63].y,
       fDS[54].x,
       fDS[54].y
-    ]
+    ];
 
     let a = atan2(fDS[16][0] - fDS[0][0], fDS[16][1] - fDS[0][1]);
 
@@ -133,7 +133,29 @@ function DrawFace(face) {
   }
 }
 
+var findFacePositions = (face) => {
+
+		let r1 = {
+		}
+		r1.x = face.points[0].x;
+		r1.y = face.points[18].y < face.points[25].y 
+			? face.points[18].y : face.points[25].y;
+		r1.w = face.points[16].x - face.points[0].x;
+		r1.h = face.points[0].y > face.points[16].y 
+			? face.points[0].y : face.points[16].y;
+		faceArea.push(r1);
+}
+
+
+var DrawMosaic = (face) => {
+	
+	findFacePositions(face);
+	
+
+
+
+}
 var Monitor = (opacity) => {
   document.getElementById("_imageData").style.opacity = opacity;
   area.stroke = opacity * 200;
-}
+};

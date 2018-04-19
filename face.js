@@ -12,7 +12,7 @@ var constraints = {
     height: 720,
     frameRate: 24
   }
-}
+};
 
 function initExample() {
 
@@ -42,7 +42,7 @@ function initExample() {
     if (brfv4 === null) {
       brfv4 = {
         locateFile: function() {
-          return "js/libs/brf_asmjs/BRFv4_JS_trial.js.mem"
+          return "js/libs/brf_asmjs/BRFv4_JS_trial.js.mem";
         }
       };
       initializeBRF(brfv4);
@@ -59,11 +59,11 @@ function initExample() {
     imageData.height = webcam.videoHeight;
     console.log(webcam.videoWidth);
     resolution = new brfv4.Rectangle(0, 0, 960, 720);
-    roi = new brfv4.Rectangle(240, 160, 480, 480);
-    // roi = new brfv4.Rectangle(180, 60, 600, 600);
+    roiUsbCam = new brfv4.Rectangle(240, 160, 480, 480);
+    roiFacetimeCam = new brfv4.Rectangle(0, 0, 960, 720);
     // resolutionAnalyze = new brfv4.Rectangle(0, 0, 640, 960)
     brfManager = new brfv4.BRFManager();
-    brfManager.init(resolution, roi, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
+    brfManager.init(resolution, roiFacetimeCam, "com.tastenkunst.brfv4.js.examples.minimal.webcam");
     brfManager.setNumFacesToTrack(3);
     trackFaces();
   }
