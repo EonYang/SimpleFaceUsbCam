@@ -167,5 +167,4 @@ function initExample() {
         requestAnimationFrame(trackFaces);
     }
 }
-window.onload = start;
 window.onload = initExample;
