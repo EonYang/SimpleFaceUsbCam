@@ -6,7 +6,7 @@ var roi = null;
 var resolutionAnalyze = null;
 var brfv4 = null;
 
-let deviceIndex = 0;
+let deviceIndex = 1;
 
 function setDevice(deviceInfos) {
 
